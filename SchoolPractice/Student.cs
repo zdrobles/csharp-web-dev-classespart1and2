@@ -27,24 +27,61 @@ namespace SchoolPractice
             nextStudentId++;
         }
 
-        // TODO: Complete the AddGrade method.
+        // TODO: Complete the AddGrade method.gpa = (total quality score) / (total number of credits)
         public void AddGrade(int courseCredits, double grade)
         {
             // Update the appropriate properties: NumberOfCredits, Gpa
+            double totalQualityScore = Gpa * NumberOfCredits + grade * courseCredits;
+
+            NumberOfCredits += courseCredits;
+            Gpa = totalQualityScore / NumberOfCredits;
         }
 
-        //TODO: Complete the GetGradeLevel method here:
+        //TODO: Complete the GetGradeLevel method here: 
         public string GetGradeLevel(int credits)
         {
+            string gradeLevel = "";
             // Determine the grade level of the student based on NumberOfCredits
-            return "grade level tbd";
+            if (credits >= 90)
+            {
+                gradeLevel = "Senior";
+            }
+            else if (credits >= 60)
+            {
+                gradeLevel = "Junior";
+            }
+            else if (credits >= 30)
+            {
+                gradeLevel = "Sophomore";
+            }
+            else if (credits >= 0)
+            {
+                gradeLevel = "Freshman";
+            }
+            else { gradeLevel = "Not enrolled"; }
+
+            return gradeLevel;
         }
+
 
         // TODO: Add your custom 'ToString' method here. Make sure it returns a well-formatted string rather
         //  than just the class fields.
+        public override string ToString()
+        {
+            return $"\nName: {Name}\nID: {StudentId}\nYear: {GetGradeLevel(NumberOfCredits)}\nTotal Credits: {NumberOfCredits}\nGPA: {Math.Round(Gpa * 100) / 100}\n";
+        }
 
         // TODO: Add your custom 'Equals' method here. Consider which fields should match in order to call two
         //  Student objects equal.
+        public override bool Equals(object obj)
+        {
+            return obj is Student student &&
+                   StudentId == student.StudentId;
+        }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(StudentId);
+        }
     }
 }
